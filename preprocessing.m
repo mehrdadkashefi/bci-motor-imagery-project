@@ -20,7 +20,7 @@ timelap = 14; % Stride
 overlap = window_size - timelap;
 fs = 250;
 num_channel = 3;
-
+do_normalize = 0; % wheater or not perform normalization
 
 FreqMu = linspace(6,13,16);  %16 freq sample for Mu band
 FreqBeta = linspace(17,30,15); % 15 freq samples for Beta band
@@ -45,6 +45,13 @@ for Sess= 1:3
             freq_slice = [s_beta;s_mu];
             freq_slice_clannel= [freq_slice_clannel;freq_slice];
         end
+        
+        if do_normalize
+            freq_slice_clannel_nomalized = freq_slice_clannel - min(freq_slice_clannel(:));
+            freq_slice_clannel_nomalized = freq_slice_clannel_nomalized ./ max(freq_slice_clannel_nomalized(:));
+            freq_slice_clannel = freq_slice_clannel_nomalized;
+        end
+        
         % Detecting all zero trials and NaN containing trials
         if ISNAN || ISZERO
             disp(['Is there NaN in Data ',num2str(ISNAN)])
