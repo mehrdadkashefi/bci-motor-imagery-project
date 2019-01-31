@@ -13,7 +13,7 @@ from keras.utils import to_categorical
 from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix
 
-num_subject = 4
+num_subject = 1
 subject_acc_train = np.zeros((num_subject, 1))
 subject_acc_test = np.zeros((num_subject, 1))
 for subj in range(num_subject):
@@ -52,9 +52,9 @@ for subj in range(num_subject):
         #  kernel_regularizer=regularizers.l2(RegVal)
 
         model = Sequential()
-        model.add(Permute((2, 1), input_shape=(93, 67)))
-        model.add(SeparableConv1D(30, 1, activation='relu', depth_multiplier=1, input_shape=(67, 93)))
-        model.add(MaxPooling1D(pool_size=11))
+        model.add(Permute((2, 1), input_shape=(93, 32)))
+        model.add(SeparableConv1D(30, 1, activation='relu', depth_multiplier=1, input_shape=(67, 32)))
+        model.add(MaxPooling1D(pool_size=8))
         model.add(Flatten())
         model.add(Dense(1, activation='sigmoid', use_bias=True))
 
@@ -67,7 +67,9 @@ for subj in range(num_subject):
         # Opt = Adagrad(lr=0.01, epsilon=None, decay=0.0)
         model.compile(loss='binary_crossentropy', optimizer=Opt, metrics=['accuracy'])
 
-        model.fit(x_train, y_train, validation_data=(x_test, y_test), shuffle=True, batch_size=None, epochs=200, callbacks= [ EarlyStopping(monitor='val_acc', min_delta=0, patience=50, verbose=0, mode='auto', baseline=None, restore_best_weights=True)])
+        #callbacks = [EarlyStopping(monitor='val_acc', min_delta=0, patience=10, verbose=0, mode='auto', baseline=None,
+        #                           restore_best_weights=True)]
+        model.fit(x_train, y_train, validation_data=(x_test, y_test), shuffle=True, batch_size=None, epochs=200 )
         # Validating the model
         Results[FoldCount, :] = model.evaluate(x_test, y_test)
         Results_train[FoldCount, :] = model.evaluate(x_train, y_train)
