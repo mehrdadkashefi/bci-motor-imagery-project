@@ -21,8 +21,8 @@ for sub =4:4
     overlap = window_size - timelap;
     fs = 250;
     num_channel = 3;
-    do_normalize = 1; % wheater or not perform normalization
-
+    do_normalize_perband = 0; % wheater or not perform normalization
+    do_normalize_pertrial = 1;
     FreqMu = linspace(6,13,16);  %16 freq sample for Mu band
     FreqBeta = linspace(17,30,15); % 15 freq samples for Beta band
 
@@ -43,7 +43,7 @@ for sub =4:4
                 ISZERO = sum(data_slice) == 0;
                 [s_mu,f_mu,t_mu] = spectrogram(data_slice,window_size,overlap,FreqMu,fs);
                 [s_beta,f_beta,t_beta] = spectrogram(data_slice,window_size,overlap,FreqBeta,fs);
-                if do_normalize
+                if do_normalize_perband
                     s_beta_nomalized = s_beta - min(s_beta(:));
                     s_beta_nomalized = s_beta_nomalized ./ max(s_beta_nomalized(:));
                     s_beta = s_beta_nomalized;
@@ -55,7 +55,12 @@ for sub =4:4
                 end
                 freq_slice = [s_beta;s_mu];
                 freq_slice_clannel= [freq_slice_clannel;freq_slice];
-            end  
+            end 
+             if do_normalize_pertrial
+                    freq_slice_clannel_nomalized = freq_slice_clannel - min(freq_slice_clannel(:));
+                    freq_slice_nomalized = freq_slice_clannel_nomalized ./ max(freq_slice_clannel_nomalized(:));
+                    freq_slice_clannel = freq_slice_clannel_nomalized;
+             end
             % Detecting all zero trials and NaN containing trials
             if ISNAN || ISZERO
                 disp(['Is there NaN in Data ',num2str(ISNAN)])
