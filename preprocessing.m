@@ -14,7 +14,7 @@ clear;
 close all;
 %% Loading Data
 load('~/Datasets/BCI_IV_2b/BCI_IV_2b.mat');
-for sub =4:4
+for sub =1:9
     subject_count = sub;
     window_size = 64;
     timelap = 14; % Stride
@@ -22,7 +22,7 @@ for sub =4:4
     fs = 250;
     num_channel = 3;
     do_normalize_perband = 0; % wheater or not perform normalization
-    do_normalize_pertrial = 1;
+    do_normalize_pertrial = 0; % wheater or not perform normalization on trials
     FreqMu = linspace(6,13,16);  %16 freq sample for Mu band
     FreqBeta = linspace(17,30,15); % 15 freq samples for Beta band
 
@@ -38,7 +38,7 @@ for sub =4:4
         for tr=1:size(Data,1)    % Loop over 120 trials
             freq_slice_clannel = [];
             for ch=1:num_channel % Loop over 3 channels
-                data_slice = Data(tr,250:end-250,ch);
+                data_slice = Data(tr,1:end-500,ch);
                 ISNAN = sum(isnan(data_slice));
                 ISZERO = sum(data_slice) == 0;
                 [s_mu,f_mu,t_mu] = spectrogram(data_slice,window_size,overlap,FreqMu,fs);
