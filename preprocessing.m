@@ -13,8 +13,9 @@ clc;
 clear;
 close all;
 %% Loading Data
-load('~/Datasets/BCI_IV_2b/BCI_IV_2b.mat');
-for sub =1:9
+%load('~/Datasets/BCI_IV_2b/BCI_IV_2b.mat');
+load('./sample_data.mat')
+for sub =1:length(Subject)
     subject_count = sub;
     window_size = 64;
     timelap = 14; % Stride
