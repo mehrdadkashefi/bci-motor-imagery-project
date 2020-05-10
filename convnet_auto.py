@@ -3,13 +3,14 @@
 
 # Importing libraries
 import scipy.io
+import numpy as np
 from sklearn.utils import shuffle
-from keras.models import Sequential
-from keras.layers import *
-from keras.optimizers import *
-from keras.utils import plot_model
-from keras.callbacks import EarlyStopping
-from keras.utils import to_categorical
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import *
+from tensorflow.keras.optimizers import *
+from tensorflow.keras.utils import plot_model
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.utils import to_categorical
 from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix
 
@@ -67,16 +68,17 @@ for subj in range(num_subject):
 
 
         # Plotting layers
-        plot_model(model, to_file='model.png', show_shapes=True, show_layer_names=True)
+        # Uncomment this line if you have graphvis and pydot installed
+        # plot_model(model, to_file='model.png', show_shapes=True, show_layer_names=True)
 
         # Opt = SGD(lr=0.001, decay=1e-6, momentum=0.01, nesterov=False)
         Opt = Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
         # Opt = Adagrad(lr=0.01, epsilon=None, decay=0.0)
         model.compile(loss='binary_crossentropy', optimizer=Opt, metrics=['accuracy'])
 
-        callback = [EarlyStopping(monitor='val_acc', min_delta=0, patience=50, verbose=0, mode='auto', baseline=None,
+        callback = [EarlyStopping(monitor='val_accuracy', min_delta=0, patience=50, verbose=0, mode='auto', baseline=None,
                                   restore_best_weights=True)]
-        model.fit(x_train, y_train, validation_data=(x_test, y_test), verbose=0, shuffle=True, batch_size=None, epochs=200, callbacks=callback)
+        model.fit(x_train, y_train, validation_data=(x_test, y_test), verbose=1, shuffle=True, batch_size=None, epochs=200, callbacks=callback)
         # Validating the model
         Results[FoldCount, :] = model.evaluate(x_test, y_test)
         Results_train[FoldCount, :] = model.evaluate(x_train, y_train)
