@@ -15,14 +15,15 @@ from csp import csp
 import scipy.signal as sig
 
 
-num_subject = 9
+num_subject = 1
 num_filter = 4
 num_fold = 10
 
 subject_accuracy = np.zeros((num_subject, 1))
+data_dir = './'
 for subj in range(num_subject):
 
-    mat = scipy.io.loadmat('/home/mehrdad/Datasets/BCI_IV_2b/Subject_'+str(subj+1)+'.mat')
+    mat = scipy.io.loadmat(data_dir+'Subject_'+str(subj+1)+'.mat')
     data = mat['total_data']
     label = mat['total_label']
 
