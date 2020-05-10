@@ -1,4 +1,4 @@
-BCI motor imagery project
+BCI motor Imagery Classification with a Deep Convolutional Neural Network
 
 Programmer: Mehrdad Kashefi
 
