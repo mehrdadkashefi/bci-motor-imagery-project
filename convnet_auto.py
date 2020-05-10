@@ -14,7 +14,7 @@ from tensorflow.keras.utils import to_categorical
 from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix
 
-num_subject = 9
+num_subject = 2
 subject_acc_train = np.zeros((num_subject, 1))
 subject_acc_test = np.zeros((num_subject, 1))
 for subj in range(num_subject):
