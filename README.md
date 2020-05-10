@@ -30,4 +30,4 @@ The python code for classifying EEG images using both convnet and then auto-enco
 
 csp.py:
 
-A python code for classifying EEG using classical method of using frequency band features of EEG and then feature selection using Common Spacial Pattern (CSP) algorythm.
+A python code for classifying EEG using classical method of using frequency band features of EEG and then feature selection using Common Spatial Pattern (CSP) algorythm.
